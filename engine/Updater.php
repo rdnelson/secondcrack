@@ -332,7 +332,7 @@ class Updater
                 if (ends_with($filename, self::$post_extension)) {
                     error_log("Deleted draft $filename");
                     $slug = substring_before(basename($filename), '.', true);
-                    $html_preview_filename = self::$source_path . '/drafts/_previews/' . $slug . '.html';
+                    $html_preview_filename = self::$source_path . '/drafts/_previews/' . $slug . '.php';
                     $webroot_preview_filename = self::$dest_path . '/drafts/' . $slug;
                     if (file_exists($html_preview_filename)) safe_unlink($html_preview_filename);
                     if (file_exists($webroot_preview_filename)) safe_unlink($webroot_preview_filename);
@@ -564,7 +564,7 @@ class Updater
             }
             
             Post::write_index(
-                self::$dest_path . "/index.html", 
+                self::$dest_path . "/index.php",
                 Post::$blog_title, 
                 'frontpage', 
                 Post::from_files(self::most_recent_post_filenames(self::$frontpage_post_limit, self::$frontpage_tag_filter, self::$frontpage_type_filter)),
@@ -575,7 +575,7 @@ class Updater
 
             error_log("Updating RSS...");
             Post::write_index(
-                self::$dest_path . "/rss.xml", 
+                self::$dest_path . "/rss.xml",
                 Post::$blog_title, 
                 'rss', 
                 Post::from_files(self::most_recent_post_filenames(self::$rss_post_limit, self::$rss_tag_filter, self::$rss_type_filter)),
@@ -591,7 +591,7 @@ class Updater
             $posts = Post::from_files(self::post_filenames_in_year_month($year, $month, self::$archive_tag_filter, self::$archive_type_filter));
             $ts = mktime(0, 0, 0, $month, 15, $year);
             Post::write_index(
-                self::$dest_path . "/$year/$month/index.html", 
+                self::$dest_path . "/$year/$month/index.php",
                 date('F Y', $ts), 
                 'archive', 
                 $posts, 
@@ -616,7 +616,7 @@ class Updater
             );
 
             Post::write_index(
-                self::$dest_path . "/tagged-$tag.html", 
+                self::$dest_path . "/tagged-$tag.php",
                 Post::$blog_title, 
                 'tag', 
                 Post::from_files(self::most_recent_post_filenames(self::$frontpage_post_limit, $tag, self::$archive_tag_filter)),
@@ -642,7 +642,7 @@ class Updater
                 $posts = Post::from_files(self::post_filenames_in_year_month($year, $month, $tag, self::$archive_type_filter));
                 $ts = mktime(0, 0, 0, $month, 15, $year);
                 Post::write_index(
-                    self::$dest_path . "/$year/$month/tagged-$tag.html",
+                    self::$dest_path . "/$year/$month/tagged-$tag.php",
                     date('F Y', $ts),
                     'tag',
                     $posts,
@@ -658,7 +658,7 @@ class Updater
             self::$changes_were_written = true;
 
             Post::write_index(
-                self::$dest_path . "/type-$type.html", 
+                self::$dest_path . "/type-$type.php",
                 Post::$blog_title, 
                 'type', 
                 Post::from_files(self::most_recent_post_filenames(self::$frontpage_post_limit, self::$archive_type_filter, $type)),
@@ -683,7 +683,7 @@ class Updater
                 $posts = Post::from_files(self::post_filenames_in_year_month($year, $month, self::$archive_tag_filter, $type));
                 $ts = mktime(0, 0, 0, $month, 15, $year);
                 Post::write_index(
-                    self::$dest_path . "/$year/$month/type-$type.html",
+                    self::$dest_path . "/$year/$month/type-$type.php",
                     date('F Y', $ts),
                     'type',
                     $posts,
