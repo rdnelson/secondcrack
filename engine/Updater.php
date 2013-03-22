@@ -158,6 +158,9 @@ class Updater
                 list($contents, $timestamp) = $a;
                 file_put_contents_as_dir_owner($correct_filename, $contents);
                 @touch($correct_filename, $timestamp);
+                if (file_exists(self::source_path . "/scripts/post_generated.sh")) {
+                        shell_exec(self::$source_path . "/scripts/post_generated.sh " . $correct_filename);
+                }
             }
         }
         
@@ -573,6 +576,10 @@ class Updater
                 $seq_count
             );
 
+            if (file_exists(self::source_path . "/scripts/post_generated.sh")) {
+                shell_exec(self::$source_path . "/scripts/post_generated.sh ". self::$dest_path . "/index.php");
+            }
+
             error_log("Updating RSS...");
             Post::write_index(
                 self::$dest_path . "/rss.xml",
@@ -598,6 +605,10 @@ class Updater
                 self::$archive_month_template,
                 self::archive_array()
             );
+
+            if (file_exists(self::source_path . "/scripts/post_generated.sh")) {
+                shell_exec(self::$source_path . "/scripts/post_generated.sh ". self::$dest_path . "/$year/$month/index.php");
+            }
         }
         
         foreach (self::$tags_to_be_updated as $tag => $x) {
